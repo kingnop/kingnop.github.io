@@ -17,7 +17,7 @@
 <meta property="og:url" content="http://yoursite.com/2015/10/28/C-学习笔记（一）/index.html">
 <meta property="og:site_name" content="Kingnop's Blog">
 <meta property="og:description" content="今天开始学习C# 尽量坚持下去！  keep fighting!这一部分是面向对象的部分">
-<meta property="og:updated_time" content="2015-11-15T15:47:12.509Z">
+<meta property="og:updated_time" content="2018-10-12T09:06:38.455Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="c#学习笔记（一）">
 <meta name="twitter:description" content="今天开始学习C# 尽量坚持下去！  keep fighting!这一部分是面向对象的部分">
@@ -46,7 +46,7 @@
 		</hgroup>
 
 		
-		<p class="header-subtitle">2016苦逼考研党</p>
+		<p class="header-subtitle">凡事不平凡</p>
 		
 
 		
@@ -167,7 +167,7 @@
 			  <h1 class="header-author">Kingnop_Wang</h1>
 			</hgroup>
 			
-			<p class="header-subtitle">2016苦逼考研党</p>
+			<p class="header-subtitle">凡事不平凡</p>
 			
 			<nav class="header-menu">
 				<ul>
@@ -239,7 +239,8 @@
         <p>今天开始学习C# 尽量坚持下去！  keep fighting!<br>这一部分是面向对象的部分<br><a id="more"></a></p>
 <h1 id="u5C5E_u6027_uFF08Property_uFF09"><a href="#u5C5E_u6027_uFF08Property_uFF09" class="headerlink" title="属性（Property）"></a>属性（Property）</h1><p>例子：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">int</span> Age</span><br><span class="line">&#123;</span><br><span class="line">    get</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> age;</span><br><span class="line">    &#125;</span><br><span class="line">    set</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(value &lt;= <span class="number">0</span>)</span><br><span class="line">            age = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            age = value;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
-<p>get 和 set 是两个访问器，get用来读取变量的值，set用来设置变量的值。其中set访问器中有一个隐式声明的变量value。<br>使用：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Kitty.Age = <span class="number">3</span>; <span class="comment">//用属性Age为变量age赋值（使用set）</span></span><br><span class="line">Console.WriteLine(Kitty.Age); <span class="comment">//用属性Age读取变量age的值（使用get）</span></span><br></pre></td></tr></table></figure></p>
+<p>get 和 set 是两个访问器，get用来读取变量的值，set用来设置变量的值。其中set访问器中有一个隐式声明的变量value。<br>使用：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Kitty.Age = <span class="number">3</span>; <span class="comment">//用属性Age为变量age赋值（使用set）</span></span><br><span class="line">Console.WriteLine(Kitty.Age); <span class="comment">//用属性Age读取变量age的值（使用get）</span></span><br></pre></td></tr></table></figure>
 <h1 id="u6784_u9020_u51FD_u6570"><a href="#u6784_u9020_u51FD_u6570" class="headerlink" title="构造函数"></a>构造函数</h1><p>每个类都有一个默认的与类同名的构造函数用来初始化对象的成员变量。当创建对象的时候，系统会调用默认的构造函数，用默认值初始化所有成员变量的值。（int-&gt;0  float-&gt;0.0  bool-&gt;false  string-&gt;null）</p>
 <p>构造函数必须和类同名，并且没有返回类型。<br>我们还可以定义带参数的构造函数<br>例子：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Cat</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Cat</span><span class="params">(string nameValue, <span class="keyword">int</span> ageValue)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="comment">//初始化变量</span></span><br><span class="line">        name = nameValue;</span><br><span class="line">        age = ageValue;</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>调用以上的构造函数<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Cat kitty = <span class="keyword">new</span> Cat(<span class="string">"kitty"</span>, <span class="number">3</span>);<span class="comment">//将对象kitty的name和age分别初始化为kitty和3</span></span><br></pre></td></tr></table></figure></p>
