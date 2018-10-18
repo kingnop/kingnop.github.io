@@ -14,7 +14,7 @@
   
 
 
-<html class="theme-next mist use-motion" lang="zh-Hans">
+<html class="theme-next mist use-motion" lang="zh-CN">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -25,6 +25,13 @@
 
 
 
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
 
 
 
@@ -64,10 +71,10 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=">
 
 
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon_32x32.png?v=">
 
 
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon_16x16.png?v=">
 
 
   <link rel="mask-icon" href="/images/logo.svg?v=" color="#222">
@@ -86,7 +93,7 @@
     root: '/',
     scheme: 'Mist',
     version: '',
-    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: false,
     fastclick: false,
     lazyload: false,
@@ -111,7 +118,7 @@
   <meta name="description" content="今天开始学习C# 尽量坚持下去！  keep fighting!这一部分是面向对象的部分">
 <meta property="og:type" content="article">
 <meta property="og:title" content="c#学习笔记（一）">
-<meta property="og:url" content="http://yoursite.com/2015/10/28/C-学习笔记（一）/index.html">
+<meta property="og:url" content="https://www.kingnop.club/2015/10/28/C-学习笔记（一）/index.html">
 <meta property="og:site_name" content="Kingnop's Blog">
 <meta property="og:description" content="今天开始学习C# 尽量坚持下去！  keep fighting!这一部分是面向对象的部分">
 <meta property="og:updated_time" content="2018-10-12T09:06:38.455Z">
@@ -126,7 +133,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2015/10/28/C-学习笔记（一）/"/>
+  <link rel="canonical" href="https://www.kingnop.club/2015/10/28/C-学习笔记（一）/"/>
 
 
 
@@ -176,7 +183,7 @@
 
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
 
   
   
@@ -202,7 +209,7 @@
   </div>
 
   <div class="site-nav-toggle">
-    <button aria-label="切換導航欄">
+    <button aria-label="切换导航栏">
       <span class="btn-bar"></span>
       <span class="btn-bar"></span>
       <span class="btn-bar"></span>
@@ -222,7 +229,7 @@
           
           <li class="menu-item menu-item-home">
     <a href="/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首頁</a>
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
   </li>
         
         
@@ -230,23 +237,7 @@
           
           <li class="menu-item menu-item-about">
     <a href="/about/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />關於</a>
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-tags">
-    <a href="/tags/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />標籤</a>
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-categories">
-    <a href="/categories/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分類</a>
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
   </li>
         
         
@@ -254,7 +245,7 @@
           
           <li class="menu-item menu-item-archives">
     <a href="/archives/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />歸檔</a>
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
   </li>
 
       
@@ -264,7 +255,7 @@
             <a href="javascript:;" class="popup-trigger">
           
             
-              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />搜尋</a>
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />搜索</a>
         </li>
       
     </ul>
@@ -288,7 +279,7 @@
     </span>
     <div class="local-search-input-wrapper">
       <input autocomplete="off"
-             placeholder="搜尋..." spellcheck="false"
+             placeholder="搜索..." spellcheck="false"
              type="text" id="local-search-input">
     </div>
   </div>
@@ -336,12 +327,12 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/10/28/C-学习笔记（一）/">
+    <link itemprop="mainEntityOfPage" href="https://www.kingnop.club/2015/10/28/C-学习笔记（一）/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Kingnop">
       <meta itemprop="description" content="A place to write">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/touxiang.png">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -371,14 +362,14 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">發表於</span>
+                <span class="post-meta-item-text">发表于</span>
               
 
               
                 
               
 
-              <time title="創建時間：2015-10-28 01:02:16" itemprop="dateCreated datePublished" datetime="2015-10-28T01:02:16+08:00">2015-10-28</time>
+              <time title="创建时间：2015-10-28 01:02:16" itemprop="dateCreated datePublished" datetime="2015-10-28T01:02:16+08:00">2015-10-28</time>
             
 
             
@@ -393,9 +384,9 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 
-                  <span class="post-meta-item-text">更新於</span>
+                  <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改時間：2018-10-12 17:06:38" itemprop="dateModified" datetime="2018-10-12T17:06:38+08:00">2018-10-12</time>
+                <time title="修改时间：2018-10-12 17:06:38" itemprop="dateModified" datetime="2018-10-12T17:06:38+08:00">2018-10-12</time>
               
             
           </span>
@@ -410,7 +401,7 @@
                   <i class="fa fa-comment-o"></i>
                 </span>
                 <a href="/2015/10/28/C-学习笔记（一）/#comments" itemprop="discussionUrl">
-                  <span class="post-meta-item-text">評論數：</span> <span class="post-comments-count valine-comment-count" data-xid="/2015/10/28/C-学习笔记（一）/" itemprop="commentCount"></span>
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2015/10/28/C-学习笔记（一）/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -424,7 +415,7 @@
                  <i class="fa fa-eye"></i>
                </span>
                
-                 <span class="post-meta-item-text">閱讀次數：</span>
+                 <span class="post-meta-item-text">阅读次数：</span>
                
                  <span class="leancloud-visitors-count"></span>
              </span>
@@ -476,6 +467,16 @@
     
     
     
+
+	<div>
+	
+		<div>
+    
+        <div style="text-align:center;color: #555;font-size:18px;">------------------The End------------------</div>
+    
+</div>
+	
+	</div>
 
     
 
@@ -564,10 +565,10 @@
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目錄
+            文章目录
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            本站概要
+            站点概览
           </li>
         </ul>
       
@@ -575,6 +576,10 @@
       <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/touxiang.png"
+                alt="Kingnop" />
             
               <p class="site-author-name" itemprop="name">Kingnop</p>
               <p class="site-description motion-element" itemprop="description">A place to write</p>
@@ -588,7 +593,7 @@
                   <a href="/archives/">
                 
                     <span class="site-state-item-count">7</span>
-                    <span class="site-state-item-name">文章</span>
+                    <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
               
@@ -603,7 +608,7 @@
                       
                     
                     <span class="site-state-item-count">1</span>
-                    <span class="site-state-item-name">分類</span>
+                    <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
               
@@ -626,7 +631,7 @@
                       
                     
                     <span class="site-state-item-count">5</span>
-                    <span class="site-state-item-name">標籤</span>
+                    <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
               
@@ -652,11 +657,6 @@
               
                 <span class="links-of-author-item">
                   <a href="mailto:kingnop@hotmail.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
-                  
-                </span>
-              
-                <span class="links-of-author-item">
-                  <a href="http://weibo.com/u/3905702514" target="_blank" title="Weibo"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
                   
                 </span>
               
@@ -723,9 +723,9 @@
       <div class="footer-inner">
         <div class="copyright">&copy; 2015 – <span itemprop="copyrightYear">2018</span>
   <span class="with-love" id="animate">
-    <i class="fa fa-user"></i>
+    <i class="fa fa-heart"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder"></span>
+  <span class="author" itemprop="copyrightHolder">kingnop</span>
 
   
 
@@ -735,7 +735,7 @@
 
 
 
-  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 強力驅動 v3.1.1</div>
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
 
 
 
@@ -743,7 +743,7 @@
 
 
 
-  <div class="theme-info">主題 – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Mist</a> v</div>
+  <div class="theme-info">主题 – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Mist</a></div>
 
 
 
@@ -888,7 +888,7 @@
         notify: false,
         appId: 'c539RBlUaXEjXCDkPl165OQc-gzGzoHsz',
         appKey: 'LyDmhEUAltaRyCiupfKtg098',
-        placeholder: 'Just go go',
+        placeholder: 'Just go go go go',
         avatar:'mm',
         meta:guest,
         pageSize:'10' || 10,
