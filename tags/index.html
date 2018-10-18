@@ -93,7 +93,7 @@
     root: '/',
     scheme: 'Mist',
     version: '',
-    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
     fancybox: false,
     fastclick: false,
     lazyload: false,
@@ -117,17 +117,15 @@
 
   <meta name="description" content="A place to write">
 <meta property="og:type" content="website">
-<meta property="og:title" content="tags">
+<meta property="og:title" content="标签">
 <meta property="og:url" content="https://www.kingnop.club/tags/index.html">
 <meta property="og:site_name" content="Kingnop's Blog">
 <meta property="og:description" content="A place to write">
-<meta property="og:updated_time" content="2018-10-17T10:53:05.509Z">
+<meta property="og:updated_time" content="2018-10-18T17:22:38.637Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="tags">
+<meta name="twitter:title" content="标签">
 <meta name="twitter:description" content="A place to write">
 
-
-  
 
 
   <link rel="alternate" href="/atom.xml" title="Kingnop's Blog" type="application/atom+xml" />
@@ -145,7 +143,7 @@
   };
 </script>
 
-  <title>tags | Kingnop's Blog</title>
+  <title>标签 | Kingnop's Blog</title>
   
 
 
@@ -249,6 +247,14 @@
     <a href="/archives/" rel="section">
       <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
   </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-text_board">
+    <a href="/text_board/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-comments"></i> <br />留言板</a>
+  </li>
 
       
       
@@ -267,6 +273,9 @@
     
 
     
+    
+      
+      
     
       
       
@@ -336,7 +345,7 @@
     <div class="post-block page">
       <header class="post-header">
 
-<h1 class="post-title" itemprop="name headline">tags</h1>
+<h1 class="post-title" itemprop="name headline">标签</h1>
 
 <div class="post-meta">
   
@@ -557,7 +566,7 @@
       <div class="footer-inner">
         <div class="copyright">&copy; 2015 – <span itemprop="copyrightYear">2018</span>
   <span class="with-love" id="animate">
-    <i class="fa fa-heart"></i>
+    <i class="fa fa-heart-o"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">kingnop</span>
 
@@ -607,6 +616,8 @@
     
       <div class="back-to-top">
         <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
         
       </div>
     
@@ -722,7 +733,7 @@
         notify: false,
         appId: 'c539RBlUaXEjXCDkPl165OQc-gzGzoHsz',
         appKey: 'LyDmhEUAltaRyCiupfKtg098',
-        placeholder: 'Just go go go go',
+        placeholder: '说说吧',
         avatar:'mm',
         meta:guest,
         pageSize:'10' || 10,

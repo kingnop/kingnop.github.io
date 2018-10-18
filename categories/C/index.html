@@ -93,7 +93,7 @@
     root: '/',
     scheme: 'Mist',
     version: '',
-    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
     fancybox: false,
     fastclick: false,
     lazyload: false,
@@ -246,6 +246,14 @@
     <a href="/archives/" rel="section">
       <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
   </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-text_board">
+    <a href="/text_board/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-comments"></i> <br />留言板</a>
+  </li>
 
       
       
@@ -264,6 +272,9 @@
     
 
     
+    
+      
+      
     
       
       
@@ -534,7 +545,7 @@
       <div class="footer-inner">
         <div class="copyright">&copy; 2015 – <span itemprop="copyrightYear">2018</span>
   <span class="with-love" id="animate">
-    <i class="fa fa-heart"></i>
+    <i class="fa fa-heart-o"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">kingnop</span>
 
@@ -584,6 +595,8 @@
     
       <div class="back-to-top">
         <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
         
       </div>
     
@@ -695,7 +708,7 @@
         notify: false,
         appId: 'c539RBlUaXEjXCDkPl165OQc-gzGzoHsz',
         appKey: 'LyDmhEUAltaRyCiupfKtg098',
-        placeholder: 'Just go go go go',
+        placeholder: '说说吧',
         avatar:'mm',
         meta:guest,
         pageSize:'10' || 10,
