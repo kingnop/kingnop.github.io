@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon_32x32.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon_16x16.png?v=">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="本程序是信息网络与协议课程的一个作业。利用Socket编程和多线程技术实现了两个主机之间的IPv6通信和文件传输。
+代码在ArchLinux系统下测试通过。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python实现主机间全双工通信及文件发送">
+<meta property="og:url" content="https://www.kingnop.club/2018/11/27/Python全双工通信/index.html">
+<meta property="og:site_name" content="Kingnop's Blog">
+<meta property="og:description" content="本程序是信息网络与协议课程的一个作业。利用Socket编程和多线程技术实现了两个主机之间的IPv6通信和文件传输。
+代码在ArchLinux系统下测试通过。">
+<meta property="og:updated_time" content="2018-11-27T06:45:33.255Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python实现主机间全双工通信及文件发送">
+<meta name="twitter:description" content="本程序是信息网络与协议课程的一个作业。利用Socket编程和多线程技术实现了两个主机之间的IPv6通信和文件传输。
+代码在ArchLinux系统下测试通过。">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Kingnop's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="canonical" href="https://www.kingnop.club/2018/11/27/Python全双工通信/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Python实现主机间全双工通信及文件发送 | Kingnop's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title"></span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-text_board">
+    <a href="/text_board/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-comments"></i> <br />留言板</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.kingnop.club/2018/11/27/Python全双工通信/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Kingnop">
+      <meta itemprop="description" content="A place to write">
+      <meta itemprop="image" content="/images/touxiang.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Kingnop's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Python实现主机间全双工通信及文件发送
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-11-27 14:12:00 / 修改时间：14:45:33" itemprop="dateCreated datePublished" datetime="2018-11-27T14:12:00+08:00">2018-11-27</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/11/27/Python全双工通信/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/11/27/Python全双工通信/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/11/27/Python全双工通信/" class="leancloud_visitors" data-flag-title="Python实现主机间全双工通信及文件发送">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本程序是信息网络与协议课程的一个作业。利用Socket编程和多线程技术实现了两个主机之间的IPv6通信和文件传输。</p>
+<p>代码在ArchLinux系统下测试通过。</p>
+<a id="more"></a>
+<h1 id="u5B9E_u73B0_u529F_u80FD"><a href="#u5B9E_u73B0_u529F_u80FD" class="headerlink" title="实现功能"></a>实现功能</h1><p>代码实现了主机间的全双工通信以及文件传输功能</p>
+<h1 id="u539F_u7406"><a href="#u539F_u7406" class="headerlink" title="原理"></a>原理</h1><p>通过开辟额外的线程执行socket通信中的recv()操作，避免了在一个线程中send()和recv()操作会相互阻塞的情况发生，实现了全双工的功能。</p>
+<h1 id="u4E0D_u8DB3"><a href="#u4E0D_u8DB3" class="headerlink" title="不足"></a>不足</h1><ol>
+<li>由于是实验作业，所以没有完全考虑到输入合法性的问题。实际应用中应该完全考虑到过滤非法输入。</li>
+<li>如果要实现多方通信或群聊等功能，最好还是独立出一个服务器。</li>
+<li>异常退出时有时候没有关闭套接字。导致下次bind时发生错误。</li>
+<li>如何从子线程中正常的关闭主线程还是一个待解决的问题。</li>
+</ol>
+<h1 id="u4EE3_u7801_u53CA_u89E3_u91CA"><a href="#u4EE3_u7801_u53CA_u89E3_u91CA" class="headerlink" title="代码及解释"></a>代码及解释</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"><span class="comment"># @Author  : Wyf</span></span><br><span class="line"><span class="comment"># @Time    : 2018/11/25</span></span><br><span class="line"><span class="comment"># @Function: ipv6 socket communication</span></span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> subprocess</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line">MAX_BUFF = <span class="number">1024</span>         <span class="comment"># 最大缓冲区空间为1024字节</span></span><br><span class="line">DEFAULT_PORT = <span class="number">32768</span>    <span class="comment"># 默认的服务器连接端口为32768</span></span><br><span class="line">isworkFlag = <span class="keyword">False</span>      <span class="comment"># 是否继续工作标志位，用于退出时使用</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">global</span> isworkFlag</span><br><span class="line">    <span class="keyword">print</span> (<span class="string">"Time:"</span>, (time.strftime(<span class="string">"%Y-%m-%d %H:%M:%S"</span>, time.localtime()))) <span class="comment"># 打印当前时间</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        host, port = input(<span class="string">"Please enter target IP and Port: "</span>).split()     <span class="comment"># 用户输入目标ip地址和端口号，如果不输入则默认为服务器端</span></span><br><span class="line">        flag = <span class="string">"ClientMode"</span> <span class="comment"># 如果没有捕捉到异常证明输入了内容，启动客户端</span></span><br><span class="line">    <span class="keyword">except</span> ValueError:</span><br><span class="line">        flag = <span class="string">"ServerMode"</span> <span class="comment"># 否则启动服务器</span></span><br><span class="line">    <span class="keyword">if</span> flag == <span class="string">"ClientMode"</span>: <span class="comment"># 以下为客户端进行操作</span></span><br><span class="line">        print_green (<span class="string">"ClientMode..."</span>)</span><br><span class="line">        <span class="keyword">print</span> (<span class="string">"Connecting to &#123;0&#125;  port &#123;1&#125;"</span>.format(host, port))</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            client = socket.socket(socket.AF_INET6, socket.SOCK_STREAM, <span class="number">0</span>) <span class="comment"># 创建IPv6套接字，TCP连接</span></span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            print_red (<span class="string">"Fail to create socket..."</span>)</span><br><span class="line">            exit(-<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            client.connect((host, int(port))) <span class="comment"># 连接到指定的主机</span></span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            print_red (<span class="string">"Fail to connect to host..."</span>)</span><br><span class="line">            exit(-<span class="number">2</span>)</span><br><span class="line">        print_green (<span class="string">"Connected successful, now you can chat !"</span>)</span><br><span class="line">        isworkFlag = <span class="keyword">True</span> <span class="comment"># 连接成功，将标志位置为True</span></span><br><span class="line">        t = threading.Thread(target= receiveMsg, args= (client, )) <span class="comment"># 创建子线程，子线程执行receiveMsg函数，参数为套接字client</span></span><br><span class="line">        t.setDaemon(<span class="keyword">True</span>) <span class="comment"># 设置该线程为守护线程，当主线程退出时该线程无条件退出</span></span><br><span class="line">        t.start() <span class="comment"># 启动子线程，启动数据接收</span></span><br><span class="line">        <span class="keyword">while</span> isworkFlag: <span class="comment"># 以下为客户端输入，只要工作标志位为True就一直执行循环</span></span><br><span class="line">            msg = input() <span class="comment"># 接收用户输入</span></span><br><span class="line">            client.send(msg.encode(<span class="string">'utf-8'</span>)) <span class="comment"># 将输入的str类型字符串转换为可供传输的byte类型</span></span><br><span class="line">            <span class="keyword">if</span> msg == <span class="string">"END"</span>: <span class="comment"># 如果输入的消息是‘END’，则将工作标志位置为False</span></span><br><span class="line">                isworkFlag = <span class="keyword">False</span></span><br><span class="line">            <span class="keyword">if</span> msg == <span class="string">"FILE"</span>:<span class="comment"># 如果输入的消息是‘FILE’，则调用sendFile函数进行文件传送</span></span><br><span class="line">                sendFile(client)</span><br><span class="line">        client.close() <span class="comment"># 退出时关闭套接字</span></span><br><span class="line">        print_red (<span class="string">"Connection Closed..."</span>)</span><br><span class="line">        exit(<span class="number">0</span>)</span><br><span class="line">    <span class="keyword">elif</span> flag == <span class="string">"ServerMode"</span>: <span class="comment"># 进入服务器模式</span></span><br><span class="line">        host = str(getHostIpv6Addr()) <span class="comment"># 获取本机的ipv6地址</span></span><br><span class="line">        port = DEFAULT_PORT <span class="comment"># 采用设定好的端口</span></span><br><span class="line">        print_green (<span class="string">"ServerMode..."</span>)</span><br><span class="line">        print_green (<span class="string">"Your IPV6 address is &#123;0&#125;, port is &#123;1&#125;"</span>.format(host, port))</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            server = socket.socket(socket.AF_INET6, socket.SOCK_STREAM, <span class="number">0</span>) <span class="comment"># 服务器创建套接字</span></span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            print_red (<span class="string">"Fail to create socket..."</span>)</span><br><span class="line">            exit(-<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            server.bind((host, port)) <span class="comment"># 与本机指定的ipv6地址和端口进行绑定</span></span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            print_red (<span class="string">"Fail to bind..."</span>)</span><br><span class="line">            exit(-<span class="number">3</span>)</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            server.listen(<span class="number">5</span>) <span class="comment"># 监听套接字</span></span><br><span class="line">            <span class="keyword">print</span> (<span class="string">"Waiting Connection..."</span>)</span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            print_red (<span class="string">"Fail to listen connection"</span>)</span><br><span class="line">            exit(-<span class="number">4</span>)</span><br><span class="line">        clientsocket, clientaddr = server.accept() <span class="comment"># 接收客户端的连接请求</span></span><br><span class="line">        print_green (<span class="string">"Connected. Target Ip is &#123;0&#125;"</span>.format(clientaddr))</span><br><span class="line">        isworkFlag = <span class="keyword">True</span> <span class="comment"># 连接创建后将工作标志设定为True</span></span><br><span class="line">        server.close() <span class="comment"># 关闭服务端套接字，之后收发消息使用接收客户端连接创建的套接字</span></span><br><span class="line">        t = threading.Thread(target= receiveMsg, args= (clientsocket, )) <span class="comment"># 创建子线程，执行receiveMsg函数，等待接收消息</span></span><br><span class="line">        t.setDaemon(<span class="keyword">True</span>) <span class="comment"># 设置线程为守护线程</span></span><br><span class="line">        t.start() <span class="comment"># 启动线程</span></span><br><span class="line">        <span class="keyword">while</span> isworkFlag: <span class="comment"># 当工作标志为True时一直执行以下语句</span></span><br><span class="line">            msg = input() <span class="comment"># 接收用户输入</span></span><br><span class="line">            clientsocket.send(msg.encode(<span class="string">'utf-8'</span>)) <span class="comment"># 将用户输入的str类型字符串转换为byte类型后发送</span></span><br><span class="line">            <span class="keyword">if</span> msg == <span class="string">"END"</span>: <span class="comment"># 如果收到‘END’后，则将标志位置为False</span></span><br><span class="line">                isworkFlag = <span class="keyword">False</span></span><br><span class="line">            <span class="keyword">if</span> msg == <span class="string">"FILE"</span>:<span class="comment"># 如果收到‘FILE’后，则执行sendFile函数，启动文件传输</span></span><br><span class="line">                sendFile(clientsocket)</span><br><span class="line">        clientsocket.close() <span class="comment">#关闭套接字</span></span><br><span class="line">        server.close()</span><br><span class="line">        print_red (<span class="string">"Connection Closed..."</span>)</span><br><span class="line">        exit(<span class="number">0</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">print</span> (<span class="string">"Wrong input"</span>)</span><br><span class="line">        exit()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">receiveMsg</span><span class="params">(s)</span>:</span></span><br><span class="line">    <span class="keyword">global</span> isworkFlag <span class="comment"># 工作标志位为全局变量</span></span><br><span class="line">    <span class="keyword">while</span> isworkFlag: <span class="comment"># 当工作标志位为False时退出</span></span><br><span class="line">        msg = s.recv(MAX_BUFF) <span class="comment"># 接收数据，缓冲区为设置的大小</span></span><br><span class="line">        print_green (msg.decode(<span class="string">'utf-8'</span>)) <span class="comment"># 显示消息</span></span><br><span class="line">        <span class="keyword">if</span> msg.decode(<span class="string">'utf-8'</span>) == <span class="string">'END'</span>: <span class="comment"># 如果接收到的消息为‘END’，则将标志位设置为False，关闭套接字，关闭程序</span></span><br><span class="line">            isworkFlag = <span class="keyword">False</span></span><br><span class="line">            s.close()</span><br><span class="line">            print_red (<span class="string">"Connection Closed..."</span>)</span><br><span class="line">            os._exit(<span class="number">0</span>)</span><br><span class="line">        <span class="keyword">if</span> msg.decode(<span class="string">'utf-8'</span>) == <span class="string">'FILE'</span>: <span class="comment"># 如果接收到的消息为‘FILE’，则证明需要接收文件</span></span><br><span class="line">            data = s.recv(MAX_BUFF) <span class="comment"># 接收文件内容前首先接收文件名和文件大小的信息</span></span><br><span class="line">            filename, filesize = data.decode(<span class="string">'utf-8'</span>).split(<span class="string">'|'</span>) <span class="comment"># 分离文件名和文件大小</span></span><br><span class="line">            filepath = os.path.join(os.path.dirname(os.path.abspath(__file__)), filename) <span class="comment"># 将文件路径指定为当前目录</span></span><br><span class="line">            filesize = int(filesize) <span class="comment"># 转为int类型</span></span><br><span class="line">            has_sent = <span class="number">0</span> <span class="comment"># 已经接受的数据大小</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">with</span> open(filepath, <span class="string">'wb'</span>) <span class="keyword">as</span> fp: <span class="comment"># 在当前目录创建同名文件并打开</span></span><br><span class="line">                <span class="keyword">while</span> has_sent != filesize: <span class="comment"># 如果没有接受完数据</span></span><br><span class="line">                    data = s.recv(MAX_BUFF) <span class="comment"># 接收文件内容</span></span><br><span class="line">                    fp.write(data) <span class="comment"># 将数据写入文件</span></span><br><span class="line">                    has_sent = has_sent + len(data) <span class="comment"># 更改已接受的数据大小</span></span><br><span class="line">                    <span class="keyword">print</span> (<span class="string">'\r'</span> + <span class="string">'[Saving]:%s%.02f%%'</span> % (<span class="string">'&gt;'</span> * int((has_sent / filesize) * <span class="number">50</span>), float(has_sent / filesize) * <span class="number">100</span>), end=<span class="string">''</span>) <span class="comment"># 显示进度条</span></span><br><span class="line">            print(<span class="string">"\n%s is saved."</span> % filename) <span class="comment"># 接收完毕后提示</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getHostIpv6Addr</span><span class="params">()</span>:</span> <span class="comment"># Only works in Linux</span></span><br><span class="line">    getIPV6_process = subprocess.Popen([<span class="string">"cat"</span>, <span class="string">"/proc/net/if_inet6"</span>], stdout = subprocess.PIPE) <span class="comment"># 相当于在系统中执行cat /proc/net/if_inet6 而ipv6地址存放在该文件中</span></span><br><span class="line">    output = getIPV6_process.stdout.read() <span class="comment"># 读出返回数据</span></span><br><span class="line">    ipv6_pattern = <span class="string">'(2001+[a-f0-9]&#123;28&#125;)'</span> <span class="comment"># match IPV6 address 匹配global ipv6地址的正则表达式</span></span><br><span class="line">    m = re.search(ipv6_pattern, output.decode(<span class="string">'utf-8'</span>)) <span class="comment"># 在输出的内容中匹配符合条件的字符串，即为ipv6地址</span></span><br><span class="line">    ori_ipv6 = m.group() <span class="comment"># 取出该地址</span></span><br><span class="line">    <span class="comment"># 标准化该地址，添加:</span></span><br><span class="line">    aft_ipv6 = ori_ipv6[<span class="number">0</span>:<span class="number">4</span>] + <span class="string">':'</span> + ori_ipv6[<span class="number">4</span>:<span class="number">8</span>] + <span class="string">':'</span> + ori_ipv6[<span class="number">8</span>:<span class="number">12</span>] + <span class="string">':'</span> + ori_ipv6[<span class="number">12</span>:<span class="number">16</span>] +<span class="string">':'</span> +ori_ipv6[<span class="number">16</span>:<span class="number">20</span>] + <span class="string">':'</span> + ori_ipv6[<span class="number">20</span>:<span class="number">24</span>] + <span class="string">':'</span> + ori_ipv6[<span class="number">24</span>:<span class="number">28</span>] + <span class="string">':'</span> + ori_ipv6[<span class="number">28</span>:<span class="number">32</span>]</span><br><span class="line">    <span class="keyword">return</span> aft_ipv6</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sendFile</span><span class="params">(s)</span>:</span> <span class="comment"># 传送文件的函数</span></span><br><span class="line">    filepath = input(<span class="string">"Input File Path: "</span>).strip() <span class="comment"># 用户输入路径，去掉输入的空格</span></span><br><span class="line">    filename = os.path.basename(filepath) <span class="comment"># 获取文件名</span></span><br><span class="line">    filesize = os.stat(filepath).st_size <span class="comment"># 获取文件大小 字节数</span></span><br><span class="line">    fileinfo = <span class="string">"%s|%s"</span> % (filename, filesize) <span class="comment"># 将文件信息整合为 &#123;文件名|文件大小&#125; 的形式发送给接收端</span></span><br><span class="line">    s.send(fileinfo.encode(<span class="string">'utf-8'</span>)) <span class="comment"># 发送文件信息</span></span><br><span class="line"></span><br><span class="line">    has_sent = <span class="number">0</span> <span class="comment"># 已发送的大小</span></span><br><span class="line">    <span class="keyword">with</span> open(filepath, <span class="string">'rb'</span>) <span class="keyword">as</span> fp: <span class="comment"># 打开文件</span></span><br><span class="line">        <span class="keyword">while</span> has_sent != filesize: <span class="comment"># 如果没有发送完</span></span><br><span class="line">            data = fp.read(MAX_BUFF) <span class="comment"># 读取文件 最大1024字节</span></span><br><span class="line">            s.sendall(data) <span class="comment"># 发送全部数据 其实此处使用send函数也是一样的 因为已经限定了data的大小最大为1024个字节 远小于MTU</span></span><br><span class="line">            has_sent = has_sent + len(data) <span class="comment"># 更改已发送的数据大小</span></span><br><span class="line">            <span class="keyword">print</span> (<span class="string">'\r'</span> + <span class="string">'[Sending]:%s%.02f%%'</span> % (<span class="string">'&gt;'</span> * int((has_sent / filesize) * <span class="number">50</span>), float(has_sent / filesize) * <span class="number">100</span>), end=<span class="string">''</span>)</span><br><span class="line">    print(<span class="string">"\n%s is sent to other"</span> % filename)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_red</span><span class="params">(s)</span>:</span> <span class="comment"># 终端中显示红色字</span></span><br><span class="line">    fuck = <span class="string">'\033[31m'</span> + s + <span class="string">'\033[0m'</span></span><br><span class="line">    <span class="keyword">print</span> (fuck)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_green</span><span class="params">(s)</span>:</span> <span class="comment"># 终端中显示绿色字</span></span><br><span class="line">    fuck = <span class="string">'\033[32m'</span> + s + <span class="string">'\033[0m'</span></span><br><span class="line">    <span class="keyword">print</span> (fuck)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__==<span class="string">"__main__"</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+	<div>
+	
+		<div>
+    
+        <div style="text-align:center;color: #555;font-size:18px;">--------------The End--------------</div>
+    
+</div>
+	
+	</div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Python/" rel="tag"># Python</a>
+          
+            <a href="/tags/通信/" rel="tag"># 通信</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/10/05/2016年考研加油/" rel="next" title="2016年考研党加油！">
+                <i class="fa fa-chevron-left"></i> 2016年考研党加油！
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/11/27/手动编译安装python环境/" rel="prev" title="Linux下手动安装Python3">
+                Linux下手动安装Python3 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/touxiang.png"
+                alt="Kingnop" />
+            
+              <p class="site-author-name" itemprop="name">Kingnop</p>
+              <p class="site-description motion-element" itemprop="description">A place to write</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">9</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                    <span class="site-state-item-count">1</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">9</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/kingnop" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:kingnop@hotmail.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.ingbry.com/" title="ingbyr" target="_blank">ingbyr</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#u5B9E_u73B0_u529F_u80FD"><span class="nav-number">1.</span> <span class="nav-text">实现功能</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#u539F_u7406"><span class="nav-number">2.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#u4E0D_u8DB3"><span class="nav-number">3.</span> <span class="nav-text">不足</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#u4EE3_u7801_u53CA_u89E3_u91CA"><span class="nav-number">4.</span> <span class="nav-text">代码及解释</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 – <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart-o"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">kingnop</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Mist</a></div>
+
+
+
+
+        
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=66073074";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  
+  
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'c539RBlUaXEjXCDkPl165OQc-gzGzoHsz',
+        appKey: 'LyDmhEUAltaRyCiupfKtg098',
+        placeholder: '说说吧',
+        avatar:'mm',
+        meta:guest,
+        pageSize:'10' || 10,
+        visitor: true
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'manual') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
