@@ -1,0 +1,1438 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon_32x32.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon_16x16.png?v=">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="本文是研一课程《并行程序设计》的实验报告">
+<meta property="og:type" content="article">
+<meta property="og:title" content="并行程序设计实验报告">
+<meta property="og:url" content="https://www.kingnop.club/2018/12/24/并行程序设计实验报告/index.html">
+<meta property="og:site_name" content="Kingnop's Blog">
+<meta property="og:description" content="本文是研一课程《并行程序设计》的实验报告">
+<meta property="og:image" content="https://www.kingnop.club/C:\Users\kingn\AppData\Roaming\Typora\typora-user-images\1545048073970.png">
+<meta property="og:updated_time" content="2018-12-24T08:43:49.438Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="并行程序设计实验报告">
+<meta name="twitter:description" content="本文是研一课程《并行程序设计》的实验报告">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Kingnop's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="canonical" href="https://www.kingnop.club/2018/12/24/并行程序设计实验报告/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>并行程序设计实验报告 | Kingnop's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title"></span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-text_board">
+    <a href="/text_board/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-comments"></i> <br />留言板</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.kingnop.club/2018/12/24/并行程序设计实验报告/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Kingnop">
+      <meta itemprop="description" content="A place to write">
+      <meta itemprop="image" content="/images/touxiang.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Kingnop's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">并行程序设计实验报告
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-24 16:30:00 / 修改时间：16:43:49" itemprop="dateCreated datePublished" datetime="2018-12-24T16:30:00+08:00">2018-12-24</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/12/24/并行程序设计实验报告/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/12/24/并行程序设计实验报告/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/12/24/并行程序设计实验报告/" class="leancloud_visitors" data-flag-title="并行程序设计实验报告">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文是研一课程《并行程序设计》的实验报告</p>
+<a id="more"></a>
+<h1 id="u5E76_u884C_u7A0B_u5E8F_u8BBE_u8BA1_u5B9E_u9A8C_u62A5_u544A"><a href="#u5E76_u884C_u7A0B_u5E8F_u8BBE_u8BA1_u5B9E_u9A8C_u62A5_u544A" class="headerlink" title="并行程序设计实验报告"></a>并行程序设计实验报告</h1><hr>
+<h2 id="1-__u516C_u5171_u90E8_u5206"><a href="#1-__u516C_u5171_u90E8_u5206" class="headerlink" title="1. 公共部分"></a>1. 公共部分</h2><h3 id="u7528MPI_Send_u548CMPI_Recv_u5B9E_u73B0MPI_Allgather_u7684_u529F_u80FD_uFF0C_u5E76_u6D4B_u8BD5_u6027_u80FD"><a href="#u7528MPI_Send_u548CMPI_Recv_u5B9E_u73B0MPI_Allgather_u7684_u529F_u80FD_uFF0C_u5E76_u6D4B_u8BD5_u6027_u80FD" class="headerlink" title="用MPI_Send和MPI_Recv实现MPI_Allgather的功能，并测试性能"></a>用MPI_Send和MPI_Recv实现MPI_Allgather的功能，并测试性能</h3><p>MPI_Allgaeher是一个多对多通信的函数，其格式如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">MPI_Allgather</span><span class="params">(<span class="keyword">void</span> *SendAddress, <span class="keyword">int</span> SendCount, MPI_Datatype SendDatatype, </span><br><span class="line">                  <span class="keyword">void</span> *RecvAddress, <span class="keyword">int</span> RecvCount, MPI_Datatype RecvDatatype, MPI_Comm Comm)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>其操作相当于每个进程都作为root进程执行了一次Gather调用，即每一个进程都收集来自所有进程（包括自己）的数据。</p>
+<p>而MPI_Send和MPI_Recv是MPI的最基本函数，其调用格式如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">MPI_Send</span><span class="params">(<span class="keyword">void</span> *buf, <span class="keyword">int</span> count, MPI_Datatype datatype, <span class="keyword">int</span> dest, <span class="keyword">int</span> tag, MPI_Comm comm)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">MPI_Recv</span><span class="params">(<span class="keyword">void</span> *buf, <span class="keyword">int</span> count, MPI_Datatype datatype, </span><br><span class="line">             <span class="keyword">int</span> source, <span class="keyword">int</span> tag, MPI_Comm comm, MPIStatus status)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>从MPI_Allgather的原理中不难看出，假设共有n个进程，只要让通信域内的每个进程都执行(n-1)次MPI_Send和MPI_Recv函数，然后自己把自己的数据由发送缓存存放到接受缓存中即可。实现代码如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">My_MPI_Allgather</span><span class="params">(<span class="keyword">int</span>* send_data, <span class="keyword">int</span> send_count, MPI_Datatype send_datatype, </span><br><span class="line">                      <span class="keyword">int</span>* recv_data, <span class="keyword">int</span> recv_count, MPI_Datatype recv_datatype, MPI_Comm communicator)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> i;</span><br><span class="line">	<span class="keyword">int</span> rank, nproc;</span><br><span class="line">	MPI_Status status;</span><br><span class="line">	MPI_Comm_size(MPI_COMM_WORLD, &amp;nproc);</span><br><span class="line">	MPI_Comm_rank(MPI_COMM_WORLD, &amp;rank);</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>; i&lt;nproc; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span>(i != rank) <span class="comment">//不给自己发送</span></span><br><span class="line">			MPI_Send(send_data, send_count, send_datatype, i, rank, communicator);</span><br><span class="line">	&#125;</span><br><span class="line">	MPI_Barrier(MPI_COMM_WORLD);</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>; i&lt;nproc; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span>(i != rank) <span class="comment">//不接受自己的数据</span></span><br><span class="line">			MPI_Recv(&amp;recv_data[i], recv_count, recv_datatype, i, i, communicator, &amp;status);</span><br><span class="line">		<span class="keyword">else</span> <span class="comment">//直接把自己的数据从发送缓存保存到接受缓存中去</span></span><br><span class="line">			recv_data[i] = *send_data;</span><br><span class="line">	&#125;</span><br><span class="line">	MPI_Barrier(MPI_COMM_WORLD);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>My_MPI_Allgather函数仿照MPI_Allgather函数实现，传入参数与原生函数相同。函数内实现了上述说的功能，所有进程将数据发送给其他进程，调用MPI_Barrier函数等待通信域内所有进程发送结束，然后所有进程接收其他进程发来的消息。</p>
+<p>用脚本分别运行原本的MPI_Allgather和自己实现的My_MPI_Allgather100次，时间记录如下图（4个处理器）。</p>
+<p><img src="C:\Users\kingn\AppData\Roaming\Typora\typora-user-images\1545048073970.png" alt="1545048073970"><br>运行时间平均值分别为0.000219和0.000223。方差分别为 $ 2.21166\times10^{-8} $和$1.35786\times10^{-8}$，可以看出MPI原生实现具有更好的效率。推测在需要通信的数据量更大的情况下，MPI原生实现的优势将更大。</p>
+<p>抽象的并行算法描述如下：</p>
+<blockquote>
+<p><strong>Begin</strong></p>
+<p>对所有处理器 $rank(rank=0, \cdots, p-1)$同时执行如下的算法：</p>
+<ul>
+<li><p><strong>if(i != rank) then</strong></p>
+<ul>
+<li>执行MPI_Send函数将待发送数据发送到第i个处理器中</li>
+<li><strong>end if</strong></li>
+</ul>
+</li>
+<li><p>等待所有处理器发送完毕</p>
+</li>
+<li><p><strong>if(i != rank) then</strong></p>
+<ul>
+<li><p>执行MPI_Recv函数收取第i个处理器发过来的数据</p>
+</li>
+<li><p><strong>else</strong></p>
+</li>
+<li><p>将自身的数据拷贝到接收缓存中</p>
+</li>
+<li><p><strong>end if</strong></p>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>End</strong></p>
+</blockquote>
+<hr>
+<h3 id="FOX_u77E9_u9635_u76F8_u4E58_u7684MPI_u5E76_u884C_u7B97_u6CD5_u5B9E_u73B0"><a href="#FOX_u77E9_u9635_u76F8_u4E58_u7684MPI_u5E76_u884C_u7B97_u6CD5_u5B9E_u73B0" class="headerlink" title="FOX矩阵相乘的MPI并行算法实现"></a><strong>FOX矩阵相乘的MPI并行算法实现</strong></h3><p>Fox算法（Fox Algorithm）是一个计算矩阵乘法的并行算法。</p>
+<p>抽象的并行算法描述如下：</p>
+<p><strong>输入：</strong>$A<em>{n\times n}$，$B</em>{n\times n}$注意矩阵$A$和$B$都为方阵</p>
+<p><strong>输出：</strong>$C_{n\times n}$</p>
+<p><strong>Begin</strong></p>
+<p>​    对所有处理器$my_rank(my_rank=0, \cdots, p-1)$同时执行如下的算法</p>
+<ul>
+<li><p>将输入的矩阵$A$和$B$分成$p$个方块，$A<em>{i.j}$和$B</em>{i.j}(0\leq \sqrt{p}-1)$，其中每块大小为$(n/\sqrt{p})\times (n/\sqrt{p})$</p>
+</li>
+<li><p>将$p$个方块分配给$\sqrt{p}\times \sqrt{p}$个处理器</p>
+</li>
+<li><p>处理器按照行和列划分为两个通信子域，每个处理器$P<em>{i,j}$存放有矩阵块$A</em>{i,j}$和$B<em>{i,j}$，并负责计算矩阵块$C</em>{i,j}$</p>
+</li>
+<li><p>For i=0 to $\sqrt{p}$ :</p>
+<ul>
+<li>把$A_{i,i}$向行子域进行一到多播送</li>
+<li>各处理器计算$temp=temp + A<em>{i,i}\times B</em>{i,j}$</li>
+<li>$B<em>{i,j}-&gt;B</em>{i+1,j}$</li>
+<li>$A<em>{i,j}-&gt;A</em>{i,j+1}$</li>
+<li>转到第二步重复</li>
+</ul>
+</li>
+</ul>
+<p><strong>End</strong></p>
+<p>下面是实现Fox算法的函数：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Fox</span><span class="params">(</span><br><span class="line">        <span class="keyword">int</span>              n         <span class="comment">/* in  */</span>, </span><br><span class="line">        GRID_INFO_T*     grid      <span class="comment">/* in  */</span>, </span><br><span class="line">        LOCAL_MATRIX_T*  local_A   <span class="comment">/* in  */</span>,</span><br><span class="line">        LOCAL_MATRIX_T*  local_B   <span class="comment">/* in  */</span>,</span><br><span class="line">        LOCAL_MATRIX_T*  local_C   <span class="comment">/* out */</span>)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    LOCAL_MATRIX_T*  temp_A; <span class="comment">/* Storage for the sub-    */</span></span><br><span class="line">                             <span class="comment">/* matrix of A used during */</span> </span><br><span class="line">                             <span class="comment">/* the current stage       */</span></span><br><span class="line">    <span class="keyword">int</span>              stage;</span><br><span class="line">    <span class="keyword">int</span>              bcast_root;</span><br><span class="line">    <span class="keyword">int</span>              n_bar;  <span class="comment">/* n/sqrt(p)               */</span></span><br><span class="line">    <span class="keyword">int</span>              source;</span><br><span class="line">    <span class="keyword">int</span>              dest;</span><br><span class="line">    MPI_Status       status;</span><br><span class="line"></span><br><span class="line">    n_bar = n/grid-&gt;q;</span><br><span class="line">    Set_to_zero(local_C);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Calculate addresses for circular shift of B */</span>  </span><br><span class="line">    source = (grid-&gt;my_row + <span class="number">1</span>) % grid-&gt;q;</span><br><span class="line">    dest = (grid-&gt;my_row + grid-&gt;q - <span class="number">1</span>) % grid-&gt;q;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Set aside storage for the broadcast block of A */</span></span><br><span class="line">    temp_A = Local_matrix_allocate(n_bar);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (stage = <span class="number">0</span>; stage &lt; grid-&gt;q; stage++) &#123;</span><br><span class="line">        bcast_root = (grid-&gt;my_row + stage) % grid-&gt;q;</span><br><span class="line">        <span class="keyword">if</span> (bcast_root == grid-&gt;my_col) &#123;</span><br><span class="line">            MPI_Bcast(local_A, <span class="number">1</span>, <span class="keyword">local_matrix_mpi_t</span>,</span><br><span class="line">                bcast_root, grid-&gt;row_comm);</span><br><span class="line">            Local_matrix_multiply(local_A, local_B, </span><br><span class="line">                local_C);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            MPI_Bcast(temp_A, <span class="number">1</span>, <span class="keyword">local_matrix_mpi_t</span>,</span><br><span class="line">                bcast_root, grid-&gt;row_comm);</span><br><span class="line">            Local_matrix_multiply(temp_A, local_B, </span><br><span class="line">                local_C);</span><br><span class="line">        &#125;</span><br><span class="line">        MPI_Sendrecv_replace(local_B, <span class="number">1</span>, <span class="keyword">local_matrix_mpi_t</span>,</span><br><span class="line">            dest, <span class="number">0</span>, source, <span class="number">0</span>, grid-&gt;col_comm, &amp;status);</span><br><span class="line">    &#125; <span class="comment">/* for */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="2-__u4E2A_u4EBA_u5B9E_u9A8C"><a href="#2-__u4E2A_u4EBA_u5B9E_u9A8C" class="headerlink" title="2. 个人实验"></a>2. 个人实验</h2><p>个人实验部分我选择的是对RSA加密算法的并行化处理。</p>
+<blockquote>
+<p>RSA加密算法是一种非对称的加密算法。对极大整数做因数分解的难度决定了RSA算法的可靠性。换言之，对一极大整数做因数分解愈困难，RSA算法愈可靠。假如有人找到一种快速因数分解的算法的话，那么用RSA加密的信息的可靠性就肯定会极度下降。但找到这样的算法的可能性是非常小的。今天只有短的RSA钥匙才可能被强力方式解破。到目前为止，世界上还没有任何可靠的攻击RSA算法的方式。只要其钥匙的长度足够长，用RSA加密的信息实际上是不能被解破的。</p>
+</blockquote>
+<h3 id="u516C_u94A5_u548C_u79C1_u94A5_u7684_u4EA7_u751F"><a href="#u516C_u94A5_u548C_u79C1_u94A5_u7684_u4EA7_u751F" class="headerlink" title="公钥和私钥的产生"></a>公钥和私钥的产生</h3><ol>
+<li>随意选择两个大的质数$p$和$q$，$p$不等于$q$。计算$N=p\times q$</li>
+<li>根据欧拉函数，求得$\gamma=\phi(N)=\phi(p)\times\phi(q)=(p-1)\times(q-1)$</li>
+<li>选择一个小于$\gamma$的整数$e$，使得$e$与$\gamma$互质。并求得$e$关于$\gamma$的乘法逆元，记为$d$，满足$ed\equiv 1(\mod \gamma)$（使用扩展欧几里得算法计算）</li>
+<li>将$p$和$q$的记录销毁。此时$(N,e)$是公钥，$(N,d)$是私钥。公钥可以公开出去，而私钥需要保存起来。</li>
+</ol>
+<h3 id="u52A0_u5BC6_u548C_u89E3_u5BC6_u6D88_u606F"><a href="#u52A0_u5BC6_u548C_u89E3_u5BC6_u6D88_u606F" class="headerlink" title="加密和解密消息"></a>加密和解密消息</h3><p>加密消息只需要知道公开的公钥$(N,e)$即可。可以用约定好的规则将消息转化为一个小于$N$的非负数$n$，例如将每个字符转为这个字的Unicode码，然后将这些数字连在一起组成一个数字，如果消息非常长的话可以将消息分为若干段。然后利用下面这个公式就可以将消息加密：<br>$$<br>c\equiv n^{e}(\mod N)<br>$$</p>
+<p>可以利用快速幂算法计算$c$，以防止计算过程中数据溢出。</p>
+<p>对方收到密码消息$c$之后就可以使用私钥$(N,d)$来解密消息：<br>$$<br>n\equiv c^{d}(\mod N)<br>$$</p>
+<h3 id="u5E76_u884C_u65B9_u5F0F_u7684_u9009_u62E9"><a href="#u5E76_u884C_u65B9_u5F0F_u7684_u9009_u62E9" class="headerlink" title="并行方式的选择"></a>并行方式的选择</h3><p>由上述加解密过程我们可以看到，加解密过程实际只涉及到两个快速幂求余的计算，并没有涉及到消息传递的内容，但是因为质数$N$的值非常大，还是需要并行化来加快速度的。因此我选择了OpenMP作为并行化方式。</p>
+<h3 id="u5E76_u884C_u5316_u8BBE_u8BA1"><a href="#u5E76_u884C_u5316_u8BBE_u8BA1" class="headerlink" title="并行化设计"></a>并行化设计</h3><p>实际的并行化设计也比较简单，在快速幂的for循环前面加上OpenMP并行化制导语句就可以了。相关代码如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">encrypt</span><span class="params">(<span class="keyword">long</span> <span class="keyword">int</span>* in, <span class="keyword">long</span> <span class="keyword">int</span> <span class="built_in">exp</span>, <span class="keyword">long</span> <span class="keyword">int</span> mod, <span class="keyword">long</span> <span class="keyword">int</span>* out, size_t len)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">   <span class="preprocessor">#<span class="keyword">pragma</span> omp parallel for</span></span><br><span class="line">   <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i &lt; len; i++)</span><br><span class="line">   &#123;</span><br><span class="line">      <span class="keyword">long</span> <span class="keyword">int</span> c = in[i];</span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">int</span> z=<span class="number">1</span>;z&lt;<span class="built_in">exp</span>;z++)</span><br><span class="line">      &#123;</span><br><span class="line">         c *= in[i];</span><br><span class="line">         c %= mod;</span><br><span class="line">      &#125;</span><br><span class="line">      out[i] = c; </span><br><span class="line">   &#125;</span><br><span class="line">   out[len]=<span class="string">'\0'</span>;</span><br><span class="line">   <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>解密的函数内容和加密函数内容完全一致。</p>
+<h3 id="u6570_u636E_u4F9D_u8D56_u5173_u7CFB_u5206_u6790"><a href="#u6570_u636E_u4F9D_u8D56_u5173_u7CFB_u5206_u6790" class="headerlink" title="数据依赖关系分析"></a>数据依赖关系分析</h3><p>可以看到并行化的for循环语句序列为：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">S: c = in[i]</span><br><span class="line">T: c = c*in[i]</span><br><span class="line">U: c = c % mod</span><br><span class="line">V: out[i] = c</span><br></pre></td></tr></table></figure>
+<p>分析出以下数据依赖关系：</p>
+<p>$S \delta^{f}T$，$S\delta^{o}T$，$T\delta^{f}U$，$T\delta^{o}U$，$T\delta^{a}U$，$U\delta^{f}V$</p>
+<h3 id="u5B9E_u9A8C_u7ED3_u679C_u5206_u6790"><a href="#u5B9E_u9A8C_u7ED3_u679C_u5206_u6790" class="headerlink" title="实验结果分析"></a>实验结果分析</h3><p><strong>输入：</strong>前两行为两个大素数，第三行为待加密消息</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">80051</span></span><br><span class="line"><span class="number">3659</span></span><br><span class="line">Hello World! I love ParaProgramming!!!</span><br></pre></td></tr></table></figure>
+<p> 采用OpenMP并行的rsa_omp.cpp程序的运行结果：（2线程）</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Hello World! I love ParaProgramming!!!</span><br><span class="line"><span class="keyword">public</span> key: <span class="number">17113</span>, <span class="number">292906609</span></span><br><span class="line"><span class="keyword">private</span> key: <span class="number">278038877</span>, <span class="number">292906609</span></span><br><span class="line">Original text: Hello World! I love ParaProgramming!!!</span><br><span class="line">Encrypted text: <span class="number">7</span>Ԃ󿿕L&gt;ሷⷻแ႓*;&gt;&gt;&gt;</span><br><span class="line">Encrypt time is: <span class="number">6</span>ms</span><br><span class="line">Decrypted text: Hello World! I love ParaProgramming!!!</span><br><span class="line">Encrypt time is: <span class="number">100680</span>ms</span><br></pre></td></tr></table></figure>
+<p>我们可以看到加密用时6毫秒，解密用时100680毫秒。</p>
+<p>下面是4线程的运行结果：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Hello World! I love ParaProgramming!!!</span><br><span class="line"><span class="keyword">public</span> key: <span class="number">17113</span>, <span class="number">292906609</span></span><br><span class="line"><span class="keyword">private</span> key: <span class="number">278038877</span>, <span class="number">292906609</span></span><br><span class="line">Original text: Hello World! I love ParaProgramming!!!</span><br><span class="line">Encrypted text: <span class="number">7</span>Ԃ󿿕L&gt;ሷⷻแ႓*;&gt;&gt;&gt;</span><br><span class="line">Encrypt time is: <span class="number">5</span>ms</span><br><span class="line">Decrypted text: Hello World! I love ParaProgramming!!!</span><br><span class="line">Encrypt time is: <span class="number">53791</span>ms</span><br></pre></td></tr></table></figure>
+<p>可以看到加密用时5毫秒，解密用时53791毫秒。解密用时差不多是2线程的一半时间。</p>
+<p>下面是8线程的运行结果：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Hello World! I love ParaProgramming!!!</span><br><span class="line"><span class="keyword">public</span> key: <span class="number">17113</span>, <span class="number">292906609</span></span><br><span class="line"><span class="keyword">private</span> key: <span class="number">278038877</span>, <span class="number">292906609</span></span><br><span class="line">Original text: Hello World! I love ParaProgramming!!!</span><br><span class="line">Encrypted text: <span class="number">7</span>Ԃ󿿕L&gt;ሷⷻแ႓*;&gt;&gt;&gt;</span><br><span class="line">Encrypt time is: <span class="number">9</span>ms</span><br><span class="line">Decrypted text: Hello World! I love ParaProgramming!!!</span><br><span class="line">Encrypt time is: <span class="number">32144</span>ms</span><br></pre></td></tr></table></figure>
+<p>我们看到加密用时9毫秒，解密用时32144毫秒。解密用时是4线程的60%左右。发现提高一倍的线程数已经不能带来一倍的性能提升了。主要是因为开辟线程也需要消耗一定的系统资源。</p>
+<p>下面是串行化的RSA加解密程序运行结果：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Hello World! I love ParaProgramming!!!</span><br><span class="line"><span class="keyword">public</span> key: <span class="number">17113</span>, <span class="number">292906609</span></span><br><span class="line"><span class="keyword">private</span> key: <span class="number">278038877</span>, <span class="number">292906609</span></span><br><span class="line">Original text: Hello World! I love ParaProgramming!!!</span><br><span class="line">Encrypted text: <span class="number">7</span>Ԃ󿿕L&gt;ሷⷻแ႓*;&gt;&gt;&gt;</span><br><span class="line">Encrypt time is: <span class="number">11</span>ms</span><br><span class="line">Decrypted text: Hello World! I love ParaProgramming!!!</span><br><span class="line">Encrypt time is: <span class="number">201321</span>ms</span><br></pre></td></tr></table></figure>
+<p>可以看到解密耗时201321ms，是采用2线程并行化的2倍。充分说明了并行化能显著的提升该算法的效率。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">串并行模式</th>
+<th style="text-align:center">串行</th>
+<th style="text-align:center">2线程</th>
+<th style="text-align:center">4线程</th>
+<th style="text-align:center">8线程</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">时间（毫秒）</td>
+<td style="text-align:center">201321</td>
+<td style="text-align:center">100680</td>
+<td style="text-align:center">53791</td>
+<td style="text-align:center">32144</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="3-__u5206_u7EC4_u5B9E_u9A8C"><a href="#3-__u5206_u7EC4_u5B9E_u9A8C" class="headerlink" title="3. 分组实验"></a>3. 分组实验</h2><blockquote>
+<p>我分配到的算法分别是17-1包含问题，20-1雅可比迭代，21-4求一般矩阵全部特征值的QR方法。</p>
+</blockquote>
+<h3 id="MPI_+_OpenMP"><a href="#MPI_+_OpenMP" class="headerlink" title="MPI + OpenMP"></a>MPI + OpenMP</h3><h4 id="u96C5_u53EF_u6BD4_u8FED_u4EE3"><a href="#u96C5_u53EF_u6BD4_u8FED_u4EE3" class="headerlink" title="雅可比迭代"></a>雅可比迭代</h4><p>雅可比迭代的MPI+OMP混合编程代码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Compute</span><span class="params">()</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    time1=MPI_Wtime();</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* computing start */</span></span><br><span class="line">    <span class="keyword">while</span> (max&gt;E)                                 <span class="comment">/* The precision requirement */</span></span><br><span class="line">    &#123;</span><br><span class="line">        lmax=<span class="number">0.0</span>;</span><br><span class="line"></span><br><span class="line">		</span><br><span class="line">        <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;m;i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(my_rank*m+i&lt;size)</span><br><span class="line">            &#123;</span><br><span class="line">                sum=<span class="number">0.0</span>;</span><br><span class="line">		<span class="preprocessor">#<span class="keyword">pragma</span> omp parallel for reduction( + :sum)</span></span><br><span class="line">                <span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;size;j++)</span><br><span class="line">                    <span class="keyword">if</span> (j!=(my_rank*m+i))</span><br><span class="line">                        sum=sum+a(i,j)*v(j);</span><br><span class="line"></span><br><span class="line">                                                  <span class="comment">/* computes the new elements */</span></span><br><span class="line">                v1(i)=(b(i) - sum)/a(i,my_rank * m + i);</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (<span class="built_in">fabs</span>(v1(i)-v(i))&gt;lmax)</span><br><span class="line">                    lmax=<span class="built_in">fabs</span>(v1(i)-v(my_rank * m + i));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/*Find the max element in the vector*/</span></span><br><span class="line">        MPI_Allreduce(&amp;lmax,&amp;max,<span class="number">1</span>,MPI_FLOAT,MPI_MAX,MPI_COMM_WORLD);</span><br><span class="line"></span><br><span class="line">        <span class="comment">/*Gather all the elements of the vector from all nodes*/</span></span><br><span class="line">        MPI_Allgather(v1,m,MPI_FLOAT,v,m,MPI_FLOAT,MPI_COMM_WORLD);</span><br><span class="line">        loop++;</span><br><span class="line">    &#125;                                             <span class="comment">/* while */</span></span><br><span class="line">    time2=MPI_Wtime();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意到在计算中有for循环求和，因此考虑使用OMP中的reduction子句。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">pragma</span> omp parallel for reduction( + :sum)</span></span><br></pre></td></tr></table></figure>
+<p>将for循环任务分配到各个线程中去，等计算结束之后将结果sum规约至主线程的sum中，完成并行计算。</p>
+<p>下面是该算法的MPI实现的输出（4处理器）：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">Input of file <span class="string">"dataIn.txt"</span></span><br><span class="line"><span class="number">4</span>	<span class="number">5</span></span><br><span class="line"><span class="number">9.000000</span>	-<span class="number">1.000000</span>	-<span class="number">1.000000</span>	<span class="number">1.000000</span>	<span class="number">7.000000</span></span><br><span class="line"><span class="number">0.000000</span>	<span class="number">7.000000</span>	-<span class="number">2.000000</span>	<span class="number">0.000000</span>	<span class="number">5.000000</span></span><br><span class="line">-<span class="number">3.000000</span>	-<span class="number">1.000000</span>	<span class="number">3.000000</span>	-<span class="number">1.000000</span>	-<span class="number">1.000000</span></span><br><span class="line"><span class="number">1.000000</span>	<span class="number">1.000000</span>	<span class="number">1.000000</span>	<span class="number">9.000000</span>	<span class="number">3.000000</span></span><br><span class="line"></span><br><span class="line"><span class="number">0.000000</span>	<span class="number">0.000000</span>	<span class="number">1.000000</span>	<span class="number">0.000000</span>	</span><br><span class="line"></span><br><span class="line">Output of solution</span><br><span class="line">x[<span class="number">0</span>] = <span class="number">0.999969</span></span><br><span class="line">x[<span class="number">1</span>] = <span class="number">0.999960</span></span><br><span class="line">x[<span class="number">2</span>] = <span class="number">0.999932</span></span><br><span class="line">x[<span class="number">3</span>] = <span class="number">0.000031</span></span><br><span class="line"></span><br><span class="line">Iteration num = <span class="number">14</span></span><br><span class="line">Whole running time    = <span class="number">0.058200</span> seconds</span><br><span class="line">Distribute data time  = <span class="number">0.000059</span> seconds</span><br><span class="line">Parallel compute time = <span class="number">0.058141</span> seconds</span><br></pre></td></tr></table></figure>
+<p>下面是该算法的MPI+OMP实现的输出（4处理器+4线程）：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">Input of file <span class="string">"dataIn.txt"</span></span><br><span class="line"><span class="number">4</span>	<span class="number">5</span></span><br><span class="line"><span class="number">9.000000</span>	-<span class="number">1.000000</span>	-<span class="number">1.000000</span>	<span class="number">1.000000</span>	<span class="number">7.000000</span></span><br><span class="line"><span class="number">0.000000</span>	<span class="number">7.000000</span>	-<span class="number">2.000000</span>	<span class="number">0.000000</span>	<span class="number">5.000000</span></span><br><span class="line">-<span class="number">3.000000</span>	-<span class="number">1.000000</span>	<span class="number">3.000000</span>	-<span class="number">1.000000</span>	-<span class="number">1.000000</span></span><br><span class="line"><span class="number">1.000000</span>	<span class="number">1.000000</span>	<span class="number">1.000000</span>	<span class="number">9.000000</span>	<span class="number">3.000000</span></span><br><span class="line"></span><br><span class="line"><span class="number">0.000000</span>	<span class="number">0.000000</span>	<span class="number">1.000000</span>	<span class="number">0.000000</span>	</span><br><span class="line"></span><br><span class="line">Output of solution</span><br><span class="line">x[<span class="number">0</span>] = <span class="number">0.999969</span></span><br><span class="line">x[<span class="number">1</span>] = <span class="number">0.999960</span></span><br><span class="line">x[<span class="number">2</span>] = <span class="number">0.999932</span></span><br><span class="line">x[<span class="number">3</span>] = <span class="number">0.000031</span></span><br><span class="line"></span><br><span class="line">Iteration num = <span class="number">14</span></span><br><span class="line">Whole running time    = <span class="number">0.000613</span> seconds</span><br><span class="line">Distribute data time  = <span class="number">0.000062</span> seconds</span><br><span class="line">Parallel compute time = <span class="number">0.000551</span> seconds</span><br></pre></td></tr></table></figure>
+<p>可以看到整体时间缩小了100倍左右，其中都是在并行部分减少的。</p>
+<p>经过对相同数据的测试，得到了如下的表：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">处理器数/线程数</th>
+<th style="text-align:center">0</th>
+<th style="text-align:center">2</th>
+<th style="text-align:center">4</th>
+<th style="text-align:center">8</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center"><font color="red">0.000014</font></td>
+<td style="text-align:center">0.000190</td>
+<td style="text-align:center">0.000248</td>
+<td style="text-align:center">0.000348</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">0.000499</td>
+<td style="text-align:center">0.000274</td>
+<td style="text-align:center">0.000259</td>
+<td style="text-align:center">0.005836</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center">0.000086</td>
+<td style="text-align:center">0.000218</td>
+<td style="text-align:center">0.000519</td>
+<td style="text-align:center">0.000320</td>
+</tr>
+<tr>
+<td style="text-align:center">4</td>
+<td style="text-align:center">0.000316</td>
+<td style="text-align:center">0.000193</td>
+<td style="text-align:center">0.000592</td>
+<td style="text-align:center"><font color="green">0.109583</font></td>
+</tr>
+</tbody>
+</table>
+<p>可以看到在数据量小的情况下，增加MPI处理器数或者增加OMP线程数反而会拉低效率，因为系统开辟线程和通信也需要消耗，这一部分开销在数据量小的时候显的格外重要。</p>
+<blockquote>
+<p>因为找到一个较大的有解的线性方程组是比较困难的，因此没有测试该算法对较大的矩阵的效率</p>
+</blockquote>
+<h4 id="u5305_u542B_u95EE_u9898"><a href="#u5305_u542B_u95EE_u9898" class="headerlink" title="包含问题"></a>包含问题</h4><p>包含问题的MPI+OMP混合编程代码如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">pragma</span> omp parallel for reduction( + :mys) private(i)</span></span><br><span class="line">  	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;n/group_size+<span class="number">1</span>;i++)</span><br><span class="line">    &#123;</span><br><span class="line">    		mys+=cal_inter(my_rank,i,x,y); </span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<p>和雅可比算法类似，也使用了reduction规约处理。</p>
+<h3 id="MPI_u5B9E_u9A8C"><a href="#MPI_u5B9E_u9A8C" class="headerlink" title="MPI实验"></a>MPI实验</h3><h4 id="u6C42_u89E3_u4E00_u822C_u77E9_u9635_u5168_u90E8_u7279_u5F81_u503C_u7684QR_u65B9_u6CD5"><a href="#u6C42_u89E3_u4E00_u822C_u77E9_u9635_u5168_u90E8_u7279_u5F81_u503C_u7684QR_u65B9_u6CD5" class="headerlink" title="求解一般矩阵全部特征值的QR方法"></a>求解一般矩阵全部特征值的QR方法</h4><p>利用书中给的Demo，运行时会出现错误，而且选不同的处理器数量时程序结果也有区别。</p>
+<p>下面是计算100阶矩阵的特征值的时间结果（1个处理器）：</p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Iteration <span class="built_in">num</span> = <span class="number">1000</span></span><br><span class="line">Whole running <span class="built_in">time</span>    = <span class="number">58.251767</span> <span class="built_in">seconds</span></span><br><span class="line">Distribute data <span class="built_in">time</span>  = <span class="number">0.017656</span> <span class="built_in">seconds</span></span><br><span class="line">Parallel compute <span class="built_in">time</span> = <span class="number">58.234111</span> <span class="built_in">seconds</span></span><br></pre></td></tr></table></figure>
+<p>下面是计算3阶矩阵特征值的结果（3个处理器，用4个处理器得不出正确的结果）：</p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Iteration <span class="built_in">num</span> = <span class="number">15</span></span><br><span class="line">Whole running <span class="built_in">time</span>    = <span class="number">0.001306</span> <span class="built_in">seconds</span></span><br><span class="line">Distribute data <span class="built_in">time</span>  = <span class="number">0.000645</span> <span class="built_in">seconds</span></span><br><span class="line">Parallel compute <span class="built_in">time</span> = <span class="number">0.000662</span> <span class="built_in">seconds</span></span><br><span class="line"></span><br><span class="line"><span class="operator">the</span> envalue is</span><br><span class="line"><span class="number">7.074672</span>	-<span class="number">3.187883</span>	-<span class="number">0.886791</span></span><br></pre></td></tr></table></figure>
+<p>以下是报错信息，每次计算结束后都会有该错误提示，无论结果计算是否正确。</p>
+<figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">=<span class="ruby">==================================================================================</span><br><span class="line"></span>=<span class="ruby">   <span class="constant">BAD</span> <span class="constant">TERMINATION</span> <span class="constant">OF</span> <span class="constant">ONE</span> <span class="constant">OF</span> <span class="constant">YOUR</span> <span class="constant">APPLICATION</span> <span class="constant">PROCESSES</span></span><br><span class="line"></span>=<span class="ruby">   <span class="constant">PID</span> <span class="number">23345</span> <span class="constant">RUNNING</span> <span class="constant">AT</span> node1</span><br><span class="line"></span>=<span class="ruby">   <span class="constant">EXIT</span> <span class="constant">CODE</span><span class="symbol">:</span> <span class="number">11</span></span><br><span class="line"></span>=<span class="ruby">   <span class="constant">CLEANING</span> <span class="constant">UP</span> <span class="constant">REMAINING</span> <span class="constant">PROCESSES</span></span><br><span class="line"></span>=<span class="ruby">   <span class="constant">YOU</span> <span class="constant">CAN</span> <span class="constant">IGNORE</span> <span class="constant">THE</span> <span class="constant">BELOW</span> <span class="constant">CLEANUP</span> <span class="constant">MESSAGES</span></span><br><span class="line"></span>=<span class="ruby">==================================================================================</span><br><span class="line"></span>YOUR APPLICATION TERMINATED WITH THE EXIT STRING: Segmentation fault (signal 11)</span><br><span class="line">This typically refers to a problem with your application.</span><br><span class="line">Please see the FAQ page for debugging suggestions</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+	<div>
+	
+		<div>
+    
+        <div style="text-align:center;color: #555;font-size:18px;">--------------The End--------------</div>
+    
+</div>
+	
+	</div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/MPI/" rel="tag"># MPI</a>
+          
+            <a href="/tags/OpenMP/" rel="tag"># OpenMP</a>
+          
+            <a href="/tags/Parallel-programming/" rel="tag"># Parallel programming</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/24/markdown的介绍/" rel="next" title="Markdown的介绍">
+                <i class="fa fa-chevron-left"></i> Markdown的介绍
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/touxiang.png"
+                alt="Kingnop" />
+            
+              <p class="site-author-name" itemprop="name">Kingnop</p>
+              <p class="site-description motion-element" itemprop="description">A place to write</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                    <span class="site-state-item-count">1</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/kingnop" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:kingnop@hotmail.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.ingbry.com/" title="ingbyr" target="_blank">ingbyr</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#u5E76_u884C_u7A0B_u5E8F_u8BBE_u8BA1_u5B9E_u9A8C_u62A5_u544A"><span class="nav-number">1.</span> <span class="nav-text">并行程序设计实验报告</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-__u516C_u5171_u90E8_u5206"><span class="nav-number">1.1.</span> <span class="nav-text">1. 公共部分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#u7528MPI_Send_u548CMPI_Recv_u5B9E_u73B0MPI_Allgather_u7684_u529F_u80FD_uFF0C_u5E76_u6D4B_u8BD5_u6027_u80FD"><span class="nav-number">1.1.1.</span> <span class="nav-text">用MPI_Send和MPI_Recv实现MPI_Allgather的功能，并测试性能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FOX_u77E9_u9635_u76F8_u4E58_u7684MPI_u5E76_u884C_u7B97_u6CD5_u5B9E_u73B0"><span class="nav-number">1.1.2.</span> <span class="nav-text">FOX矩阵相乘的MPI并行算法实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-__u4E2A_u4EBA_u5B9E_u9A8C"><span class="nav-number">1.2.</span> <span class="nav-text">2. 个人实验</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#u516C_u94A5_u548C_u79C1_u94A5_u7684_u4EA7_u751F"><span class="nav-number">1.2.1.</span> <span class="nav-text">公钥和私钥的产生</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u52A0_u5BC6_u548C_u89E3_u5BC6_u6D88_u606F"><span class="nav-number">1.2.2.</span> <span class="nav-text">加密和解密消息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u5E76_u884C_u65B9_u5F0F_u7684_u9009_u62E9"><span class="nav-number">1.2.3.</span> <span class="nav-text">并行方式的选择</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u5E76_u884C_u5316_u8BBE_u8BA1"><span class="nav-number">1.2.4.</span> <span class="nav-text">并行化设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u6570_u636E_u4F9D_u8D56_u5173_u7CFB_u5206_u6790"><span class="nav-number">1.2.5.</span> <span class="nav-text">数据依赖关系分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u5B9E_u9A8C_u7ED3_u679C_u5206_u6790"><span class="nav-number">1.2.6.</span> <span class="nav-text">实验结果分析</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-__u5206_u7EC4_u5B9E_u9A8C"><span class="nav-number">1.3.</span> <span class="nav-text">3. 分组实验</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MPI_+_OpenMP"><span class="nav-number">1.3.1.</span> <span class="nav-text">MPI + OpenMP</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#u96C5_u53EF_u6BD4_u8FED_u4EE3"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">雅可比迭代</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u5305_u542B_u95EE_u9898"><span class="nav-number">1.3.1.2.</span> <span class="nav-text">包含问题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MPI_u5B9E_u9A8C"><span class="nav-number">1.3.2.</span> <span class="nav-text">MPI实验</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#u6C42_u89E3_u4E00_u822C_u77E9_u9635_u5168_u90E8_u7279_u5F81_u503C_u7684QR_u65B9_u6CD5"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">求解一般矩阵全部特征值的QR方法</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 – <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart-o"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">kingnop</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Mist</a></div>
+
+
+
+
+        
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=66073074";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  
+  
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'c539RBlUaXEjXCDkPl165OQc-gzGzoHsz',
+        appKey: 'LyDmhEUAltaRyCiupfKtg098',
+        placeholder: '说说吧',
+        avatar:'mm',
+        meta:guest,
+        pageSize:'10' || 10,
+        visitor: true
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'manual') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
